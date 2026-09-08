@@ -1,0 +1,12 @@
+{
+  // קובץ ההגדרות של Cloudflare. יושב בשורש הריפוזיטורי.
+  // כאן נקבע איזה קובץ מריץ את הקוד ואיפה יושבים קבצי האתר.
+  "name": "swsups",
+  "compatibility_date": "2026-09-08",
+  "main": "./worker/index.js",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  }
+}
