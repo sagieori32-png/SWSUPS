@@ -1,6 +1,0 @@
-{
-  // קובץ ההגדרות של Cloudflare. יושב בשורש הריפוזיטורי.
-  "name": "swsups",
-  "compatibility_date": "2026-09-08",
-  "main": "./worker/index.js"
-}
