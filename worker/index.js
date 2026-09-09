@@ -366,7 +366,16 @@ async function handleChat(request, env) {
     });
     const outcome = await verify.json();
     if (!outcome.success) {
-      return fail(403, "האימות נכשל. רעננו את הדף ונסו שוב.", origin);
+      // Cloudflare מחזירה קוד מדויק. מציגים אותו, אחרת אי אפשר לאבחן.
+      const codes = (outcome["error-codes"] || []).join(", ");
+      const why = {
+        "invalid-input-secret": "המפתח הסודי שהוזן בשרת אינו תקין",
+        "missing-input-secret": "לא הוגדר מפתח סודי בשרת",
+        "invalid-input-response": "האסימון מהדפדפן אינו תקין — ייתכן שה-Sitekey וה-Secret שייכים לווידג'טים שונים",
+        "timeout-or-duplicate": "האסימון פג או כבר נוצל",
+        "bad-request": "הבקשה לאימות אינה תקינה",
+      }[codes] || "סיבה לא מזוהה";
+      return fail(403, `האימות נכשל: ${why} (${codes || "ללא קוד"})`, origin);
     }
   }
 
