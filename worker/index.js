@@ -453,7 +453,9 @@ async function handleChat(request, env) {
     body: JSON.stringify({
       model: MODEL,
       max_tokens: MAX_TOKENS,
-      system: SYSTEM_PROMPT,
+      // הפרומפט זהה בכל פנייה, ולכן הוא נשמר במטמון אצל אנתרופיק.
+      // קריאה מהמטמון עולה עשירית ממחיר קלט רגיל.
+      system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
     }),
   });
